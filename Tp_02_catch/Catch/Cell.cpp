@@ -38,7 +38,7 @@ void Cell::reset() {
     this->updateCell();
 }
 
-void Cell::enterEvent(QEvent *event) {
+void Cell::enterEvent(QEnterEvent *event) {
     emit mouseOver(true);
     QPushButton::enterEvent(event);
 }
