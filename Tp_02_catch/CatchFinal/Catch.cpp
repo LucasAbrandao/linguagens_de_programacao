@@ -12,8 +12,8 @@
 
 Catch::Catch(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::Catch),
-      m_player(Player::player(Player::Red)) {
+    ui(new Ui::Catch),
+    m_player(Player::player(Player::Red)) {
 
     ui->setupUi(this);
 
@@ -73,9 +73,9 @@ void Catch::acabaJogo (){
             }
 
             if(cell->isEmpty() && adj_cell != nullptr && adj_cell->isEmpty()){
-                emit turnEnded();
                 return;
             }
+            adj_cell = nullptr;
         }
     }
 
@@ -102,7 +102,7 @@ bool analisaFila (std::queue<std::pair<int,int>> proximos, int lin,int col){
         if ((aux.first == lin) && (aux.second == col)) return false;
     }
 
-    return true;// pode colocar na fila 
+    return true;// pode colocar na fila
 }
 
 bool valida_posicao(std::pair<int, int> u, bool (&vis_d)[8][8]) {
@@ -113,9 +113,9 @@ std::vector<std::pair<int, int>> mov = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
 void bfs_d(std::pair<int, int> s, std::vector<std::pair<int,int>>& andei, bool (&vis_d)[8][8])
 {
-  std::queue<std::pair<int,int>> q;
-  q.push(s); vis_d[s.first][s.second] = 1;
-  andei.push_back(s); // onde comeca a "andar"
+    std::queue<std::pair<int,int>> q;
+    q.push(s); vis_d[s.first][s.second] = 1;
+    andei.push_back(s); // onde comeca a "andar"
 
     while(!q.empty()) {
         std::pair<int, int> v = q.front(); q.pop();
@@ -165,7 +165,7 @@ void Catch::play(int id) {
         }
     }
 
-    bool verificadorFor = false;
+
     for (int i=0;i<8;i++){
         for (int j=0;j<8;j++){
             if (m_board[i][j]->isBlocked() || m_board[i][j]->isCaptured()){
@@ -173,7 +173,7 @@ void Catch::play(int id) {
             }
         }
     }
-    
+
     bool verificadorMatriz = true;
 
     while (verificadorMatriz){
@@ -203,7 +203,7 @@ void Catch::play(int id) {
             }
         }
 
-        
+
         proximos.push(std::make_pair(lin,col)); // onde comeca
 
         std::vector<std::pair<int,int>> andei;
@@ -213,23 +213,23 @@ void Catch::play(int id) {
         //verifica a logica de pontuacao
         if(!andei.empty()) {
             if(andei.size() < 4){
-                
+
                 for (size_t i=0;i< andei.size();i++) m_player->incrementCount();
                 for (size_t k=0;k< andei.size();k++){
-                    
+
                     //m_board[andei[k].first][andei[k].second]->reset();
                     m_board[andei[k].first][andei[k].second]->setPlayer(m_player);
                     visitados[andei[k].first][andei[k].second] = true;
-                    
+
                 }
-                
+
             }else{
                 for (size_t k=0;k< andei.size();k++){
-                   
+
                     visitados[andei[k].first][andei[k].second] = true;
-                
+
                 }
-                
+
             }
         }
 
@@ -248,9 +248,8 @@ void Catch::play(int id) {
             }
         }
     }
+    emit turnEnded();
 
-    acabaJogo();
-    
 }
 
 void Catch::switchPlayer() {
@@ -259,6 +258,9 @@ void Catch::switchPlayer() {
 
     // Finally, update the status bar.
     this->updateStatusBar();
+
+
+    acabaJogo();
 }
 
 void Catch::reset() {
@@ -315,5 +317,5 @@ void Catch::updateSelectables(bool over) {
 
 void Catch::updateStatusBar() {
     ui->statusbar->showMessage(tr("Vez do %1 (%2 a %3)")
-        .arg(m_player->name()).arg(m_player->count()).arg(m_player->other()->count()));
+                                   .arg(m_player->name()).arg(m_player->count()).arg(m_player->other()->count()));
 }
