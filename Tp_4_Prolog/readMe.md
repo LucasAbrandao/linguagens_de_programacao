@@ -5,7 +5,7 @@ conceitos	 de	 programação	 lógica.
 
 ## Alunos
 
-Lucas Andrade Brandão
+Lucas Andrade Brandão e Arthur de Almeida Sales Secundino
 
 ## Programas em Prolog
 
