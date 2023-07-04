@@ -18,10 +18,8 @@ codificar(S, C) :- string_chars(S, T1), compactar(T1, T2), linearizar(T2, T3), n
 
 
 
-decodificar([],[],[]) :- 
 
-
-descompactar(0, []).
+descompactar(0, _, [] ).
 descompactar(Num, P, R) :- Num1 is Num-1, descompactar(Num1, P, R1), concatenar([P], R1, R).
 
 quant((C:_), Q) :- not(is_digit(C)), Q = [].
